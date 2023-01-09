@@ -47,7 +47,8 @@
 					"empNRC" => $row["empNRC"],
 					"empPositionID" => $row["empPositionID"],
 					"empDeptID" => $row["empDeptID"],
-					"empJoinDate" => $row["empJoinDate"]
+					"empJoinDate" => $row["empJoinDate"],
+					"empqrcode" => "https://localhost/kbtc_oid_client/assets/qrcodes/".$id.".png"
 				);
 				$json["row$i"] = $arr;
 				$i += 1;
