@@ -70,4 +70,41 @@
 		$JSON = json_encode($json);
 		echo $JSON;
 	}
+
+	if(isset($_POST["empReadDetails"])){
+		$json = array();
+		$empID = htmlspecialchars($_POST['empID']);
+		$sql = "SELECT * FROM employees WHERE empStatus = 1 AND empID='$empID';";
+
+		$conn = dbconnect();
+		$result = $conn->query($sql);
+		$i = 0;
+
+		//Prepare convertion to Json
+		if ($result->num_rows > 0) {
+			while($row = $result->fetch_assoc()) {
+				$arr = array(
+					"empID" => $row["empID"],
+					"empName" => $row["empName"],
+					"empNRC" => $row["empNRC"],
+					"empPositionID" => $row["empPositionID"],
+					"empDeptID" => $row["empDeptID"],
+					"empJoinDate" => $row["empJoinDate"],
+					"empqrcode" => "https://localhost/kbtc_oid_client/assets/qrcodes/".$id.".png",
+					"empKey" => $row["empKey"]
+				);
+				$json["row$i"] = $arr;
+				$i += 1;
+			}
+			$Message = "Read Success!";
+		} else {
+			$Message = "Error: " . $sql . "<br>" . $conn->error;
+		}
+		$json["ReadMessage"] = $Message;
+		$json["ReadCount"] = $i;
+
+		//Encode Array to Json
+		$JSON = json_encode($json);
+		echo $JSON;
+	}
 ?>
